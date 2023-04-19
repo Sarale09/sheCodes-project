@@ -45,17 +45,21 @@ function changeWeather(location){
 
 function getTemp(response){
   let weather = Math.round(response.data.main.temp);
-  console.log(weather);
   let tempNow = document.querySelector("#currentTemp");
   tempNow.innerHTML = weather + "°";
   console.log(response.data);
+
   let hum = document.querySelector(".humidity");
   hum.innerHTML = response.data.main.humidity + "%";
+
   let wind = document.querySelector(".wind");
   wind.innerHTML = response.data.wind.speed + windSpeedUnit();
+
   let desc = document.querySelector(".desc");
-  console.log(response.data.weather[0].description);
   desc.innerHTML = response.data.weather[0].description;
+
+  let weatherIcon = document.querySelector(".icon");
+  weatherIcon.setAttribute("src", `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`);
 }
 function handlePosition(position) {
   lat = position.coords.latitude;
