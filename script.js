@@ -52,7 +52,7 @@ function getTemp(response){
   let hum = document.querySelector(".humidity");
   hum.innerHTML = response.data.main.humidity + "%";
   let wind = document.querySelector(".wind");
-  wind.innerHTML = response.data.wind.speed + "M/S";
+  wind.innerHTML = response.data.wind.speed + windSpeedUnit();
 }
 function handlePosition(position) {
   lat = position.coords.latitude;
@@ -61,7 +61,15 @@ function handlePosition(position) {
   console.log(lon);
   changeWeather(`lat=${lat}&lon=${lon}`)
 }
-
+function windSpeedUnit(){
+  if (unit === "metric"){
+    let speedUnit = "M/S";
+    return speedUnit;
+  } else if (unit === "imperial") {
+    let speedUnit = "MPH";
+    return speedUnit;
+  }
+}
 
 let clock = document.querySelector("#time");
 clock.innerHTML = timeNow;
