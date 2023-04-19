@@ -51,7 +51,7 @@ h1{
 	font-size: 35px;
 }
 .fa-sun {
-	color: goldenrod;
+	color: #ffdd61;
 }
 .fa-cloud-showers-heavy {
 	color: #92BDCB;
@@ -64,4 +64,7 @@ h1{
 }
 #currentLocation {
 	margin-bottom: 10px;
+}
+.gitHubLink{
+	text-align: center;
 }

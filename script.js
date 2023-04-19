@@ -53,6 +53,9 @@ function getTemp(response){
   hum.innerHTML = response.data.main.humidity + "%";
   let wind = document.querySelector(".wind");
   wind.innerHTML = response.data.wind.speed + windSpeedUnit();
+  let desc = document.querySelector(".desc");
+  console.log(response.data.weather[0].description);
+  desc.innerHTML = response.data.weather[0].description;
 }
 function handlePosition(position) {
   lat = position.coords.latitude;
