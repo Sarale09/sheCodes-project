@@ -17,7 +17,7 @@
 	<h1 >Weather</h1>
 	<div class="container text-center">
 
-		<button type="submit" id="currentLocation">Current Location</button>
+		<input type="button" id="currentLocation" onClick="window.location.reload(true)" value="Current Location">
 
 		<form class="search" id="searchbar">
 			<input type="text" placeholder="Other locations" id="searchbarInput">
@@ -32,10 +32,10 @@
 					<div class="col city">
 						<h6 class="card-subtitle text-muted" id="city">Melbourne</h6>
 						<br>
-						<h6 class="card-subtitle text-muted" id="today">Jan. 9</h6>
+						<h6 class="card-subtitle text-muted" id="today"></h6>
 					</div>
 					<div class="col timeNow">
-						<h6 class="card-subtitle text-muted" id="time">4PM</h6>
+						<h6 class="card-subtitle text-muted" id="time"></h6>
 						<br>
 						<p class="card-subtitle text-muted">
 							<h6  id="celcius">°C</h6>
@@ -45,7 +45,7 @@
 				</div>
 				
 
-				<h1 class="card-title temp" id="currentTemp">28°</h1>
+				<h1 class="card-title temp" id="currentTemp"></h1>
 <!--Next days-->
 				<div class="row">
 					<div class="col">
@@ -84,7 +84,7 @@
 					<h3>Humidity</h3>
 				</div>
 				<div class="col weather">
-					<h3 class="humidity">28°</h3>
+					<h3 class="humidity"></h3>
 				</div>
 			</div>
 		</div>
@@ -94,7 +94,7 @@
 					<h3>Precipitation</h3>
 				</div>
 				<div class="col weather">
-					<h3 class="precipitation">24°</h3>
+					<h3 class="precipitation"></h3>
 				</div>	
 			</div>
 		</div>
@@ -104,7 +104,7 @@
 					<h3>Wind Speed</h3>
 				</div>
 				<div class="col ">
-					<h3 class="wind">21°</h3>
+					<h3 class="wind"></h3>
 				</div>	
 			</div>
 		</div>

@@ -3,7 +3,7 @@ let months = ["Jan","Feb","March","April","May","June","July","Aug","Sept","Oct"
 let now = new Date();
 let day = week[now.getDay()];
 let date = now.getDate();
-let minutes = now.getMinutes();
+let minutes = ('0'+now.getMinutes()).slice(-2);
 let timeNow = now.getHours() + ":" + minutes;
 let month = months[now.getMonth()];
 var unit = "metric";
@@ -70,13 +70,16 @@ function windSpeedUnit(){
     return speedUnit;
   }
 }
+function currentPosition(){
+  navigator.geolocation.getCurrentPosition(handlePosition);
+}
 
 let clock = document.querySelector("#time");
 clock.innerHTML = timeNow;
 let today = document.querySelector("#today");
   today.innerHTML = `${day}, ${month} ${date}`;
 
-navigator.geolocation.getCurrentPosition(handlePosition);
+currentPosition();
 
 let c = document.querySelector("#celcius");
 c.addEventListener("click", celcius);
