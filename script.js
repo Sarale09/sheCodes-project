@@ -58,9 +58,44 @@ function getTemp(response){
   let desc = document.querySelector(".desc");
   desc.innerHTML = response.data.weather[0].description;
 
-  let weatherIcon = document.querySelector(".icon");
-  weatherIcon.setAttribute("src", `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`);
+  console.log(response.data.weather[0].main);
+  let weatherIcon = document.querySelector("#icon");
+  weatherIcon.setAttribute("class", checkWeatherIcon(response));
 }
+
+function checkWeatherIcon (response) {
+  if (response.data.weather[0].description === "clear sky") {
+    let icon = "fa-solid fa-sun";
+    return icon;
+  } else if (response.data.weather[0].description === "few clouds") {
+    let icon = "fa-solid fa-cloud-sun";
+    return icon;
+  } else if (response.data.weather[0].description === "scattered clouds") {
+    let icon = "fa-solid fa-cloud";
+    return icon;
+  } else if (response.data.weather[0].description === "broken clouds" || response.data.weather[0].description === "overcast clouds" ) {
+    let icon = "fa-solid fa-cloud dark";
+    return icon;
+  } else if (response.data.weather[0].main === "Rain") {
+      if (response.data.weather[0].description === "light rain" || response.data.weather[0].description === "moderate rain") {
+        let icon = "fa-solid fa-cloud-rain";
+        return icon;
+      } else {
+        let icon = "fa-solid fa-cloud-showers-heavy";
+        return icon;
+      }
+  } else if (response.data.weather[0].main === "Thunderstorm") {
+    let icon = "fa-solid fa-cloud-bolt";
+    return icon;
+  } else if (response.data.weather[0].main === "Snow") {
+    let icon = "fa-solid fa-snowflake";
+    return icon;
+  } else if (response.data.weather[0].description === "mist") {
+    let icon = "fa-solid fa-wind";
+    return icon;
+  }
+}
+
 function handlePosition(position) {
   lat = position.coords.latitude;
   lon = position.coords.longitude;
