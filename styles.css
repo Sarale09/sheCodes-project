@@ -17,6 +17,9 @@ h1{
 	padding-top: 5%;
 	font-family: 'Libre Baskerville', serif;
 }
+#searchButton{
+	font-size: 20px !important;
+}
 .card-title{
 	padding: 15px 0px;
 	font-size: 50px;
@@ -60,7 +63,7 @@ h1{
 	color: #FEFA95;
 }
 .fa-cloud{
-	color: #64e8e6;
+	color: #81ebe9;
 }
 .dark{
 	color: #0ea09d;
