@@ -30,7 +30,6 @@ function searchCity(event){
   event.preventDefault();
   let citySearch = document.querySelector("#searchbarInput").value;
   citySearch = citySearch[0].toUpperCase() + citySearch.slice(1);
-  console.log(citySearch);
   let city = document.querySelector("#city");
   city.innerHTML = citySearch;
   changeWeather(`q=${citySearch}`);
@@ -39,15 +38,41 @@ function searchCity(event){
 function changeWeather(location){
   apiKey = "62231151ce343c4d68652e1617efc22f";
   let weatherurl = `https://api.openweathermap.org/data/2.5/weather?${location}&units=${unit}&appid=${apiKey}`;
-  console.log(weatherurl);
   axios.get(weatherurl).then(getTemp);
+}
+
+function forecastUpdate(){
+  let forecastElement = document.querySelector("#forecast");
+  let forecastDays = ["tuesday","wednesday","thursday","friday","saturday"];
+
+  let forecastHTML = `<div class="row">`;
+
+  forecastDays.forEach(function(day){
+    forecastHTML = forecastHTML + 
+      `
+        <div class="col">
+              <p> <span class="temp">34</span>°/<span class="temp">23</span>°</p>
+              <i class="fa-solid fa-sun"></i>
+              <p>${day}</p>
+        </div>
+      `;
+  })
+
+  forecastHTML = forecastHTML + `</div>`;
+  forecastElement.innerHTML = forecastHTML;
+}
+
+function getForecast(coords){
+  console.log(coords);
+  let apiKey = "62231151ce343c4d68652e1617efc22f";
+  let forecastURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${coords.lat}&lon=${coords.lon}&appid=${apiKey}&unit=${unit}`;
+  axios.get(forecastURL).then(forecastUpdate);
 }
 
 function getTemp(response){
   let weather = Math.round(response.data.main.temp);
   let tempNow = document.querySelector("#currentTemp");
   tempNow.innerHTML = weather + "°";
-  console.log(response.data);
 
   let hum = document.querySelector(".humidity");
   hum.innerHTML = response.data.main.humidity + "%";
@@ -58,9 +83,10 @@ function getTemp(response){
   let desc = document.querySelector(".desc");
   desc.innerHTML = response.data.weather[0].description;
 
-  console.log(response.data.weather[0].main);
   let weatherIcon = document.querySelector("#icon");
   weatherIcon.setAttribute("class", checkWeatherIcon(response));
+
+  getForecast(response.data.coord);
 }
 
 function checkWeatherIcon (response) {
@@ -99,8 +125,6 @@ function checkWeatherIcon (response) {
 function handlePosition(position) {
   lat = position.coords.latitude;
   lon = position.coords.longitude;
-  console.log(lat);
-  console.log(lon);
   changeWeather(`lat=${lat}&lon=${lon}`)
 }
 function windSpeedUnit(){
