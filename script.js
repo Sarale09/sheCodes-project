@@ -41,32 +41,41 @@ function changeWeather(location){
   axios.get(weatherurl).then(getTemp);
 }
 
-function forecastUpdate(){
+function formatDay(timeStamp){
+  let date = new Date(timeStamp * 1000);
+  let day = date.getDay();
+  let weekDays = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+
+  return weekDays[day];
+} //follow she codes video
+
+function getForecast(coords){
+  let apiKey = "62231151ce343c4d68652e1617efc22f";
+  let forecastURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${coords.lat}&lon=${coords.lon}&units=${unit}&appid=${apiKey}`;
+  axios.get(forecastURL).then(forecastUpdate);
+}
+
+function forecastUpdate(response){
   let forecastElement = document.querySelector("#forecast");
-  let forecastDays = ["tuesday","wednesday","thursday","friday","saturday"];
+  let forecast = response.data.daily;
 
   let forecastHTML = `<div class="row">`;
 
-  forecastDays.forEach(function(day){
-    forecastHTML = forecastHTML + 
-      `
-        <div class="col">
-              <p> <span class="temp">34</span>°/<span class="temp">23</span>°</p>
-              <i class="fa-solid fa-sun"></i>
-              <p>${day}</p>
-        </div>
-      `;
+  forecast.forEach(function(day, index, response){
+    if (index < 5) {
+      forecastHTML = forecastHTML + 
+        `
+          <div class="col">
+                <p> <span class="temp">${Math.round(day.temp.max)}</span>°/<span class="temp">${Math.round(day.temp.min)}</span>°</p>
+                <i class="${checkWeatherIcon(day)}""></i>
+                <p>${formatDay(day.dt)}</p>
+          </div>
+        `;
+    }     
   })
 
   forecastHTML = forecastHTML + `</div>`;
   forecastElement.innerHTML = forecastHTML;
-}
-
-function getForecast(coords){
-  console.log(coords);
-  let apiKey = "62231151ce343c4d68652e1617efc22f";
-  let forecastURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${coords.lat}&lon=${coords.lon}&appid=${apiKey}&unit=${unit}`;
-  axios.get(forecastURL).then(forecastUpdate);
 }
 
 function getTemp(response){
@@ -80,43 +89,46 @@ function getTemp(response){
   let wind = document.querySelector(".wind");
   wind.innerHTML = response.data.wind.speed + windSpeedUnit();
 
+  let cloudiness = document.querySelector(".cloud");
+  cloudiness.innerHTML = response.data.clouds.all + "%";
+
   let desc = document.querySelector(".desc");
   desc.innerHTML = response.data.weather[0].description;
 
   let weatherIcon = document.querySelector("#icon");
-  weatherIcon.setAttribute("class", checkWeatherIcon(response));
-
+  weatherIcon.setAttribute("class", checkWeatherIcon(response.data));
+  console.log(response.data);
   getForecast(response.data.coord);
 }
 
-function checkWeatherIcon (response) {
-  if (response.data.weather[0].description === "clear sky") {
+function checkWeatherIcon (weatherInfo) {
+  if (weatherInfo.weather[0].description === "clear sky") {
     let icon = "fa-solid fa-sun";
     return icon;
-  } else if (response.data.weather[0].description === "few clouds") {
+  } else if (weatherInfo.weather[0].description === "few clouds") {
     let icon = "fa-solid fa-cloud-sun";
     return icon;
-  } else if (response.data.weather[0].description === "scattered clouds") {
+  } else if (weatherInfo.weather[0].description === "scattered clouds") {
     let icon = "fa-solid fa-cloud";
     return icon;
-  } else if (response.data.weather[0].description === "broken clouds" || response.data.weather[0].description === "overcast clouds" ) {
+  } else if (weatherInfo.weather[0].description === "broken clouds" || weatherInfo.weather[0].description === "overcast clouds" ) {
     let icon = "fa-solid fa-cloud dark";
     return icon;
-  } else if (response.data.weather[0].main === "Rain") {
-      if (response.data.weather[0].description === "light rain" || response.data.weather[0].description === "moderate rain") {
+  } else if (weatherInfo.weather[0].main === "Rain") {
+      if (weatherInfo.weather[0].description === "light rain" || weatherInfo.weather[0].description === "moderate rain") {
         let icon = "fa-solid fa-cloud-rain";
         return icon;
       } else {
         let icon = "fa-solid fa-cloud-showers-heavy";
         return icon;
       }
-  } else if (response.data.weather[0].main === "Thunderstorm") {
+  } else if (weatherInfo.weather[0].main === "Thunderstorm") {
     let icon = "fa-solid fa-cloud-bolt";
     return icon;
-  } else if (response.data.weather[0].main === "Snow") {
+  } else if (weatherInfo.weather[0].main === "Snow") {
     let icon = "fa-solid fa-snowflake";
     return icon;
-  } else if (response.data.weather[0].description === "mist") {
+  } else if (weatherInfo.weather[0].description === "mist") {
     let icon = "fa-solid fa-wind";
     return icon;
   }

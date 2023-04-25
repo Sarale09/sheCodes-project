@@ -80,7 +80,7 @@ h1{
 .fa-wind{
 	color: #828282;
 }
-.humidity, .precipitation, .wind {
+.humidity, .cloud, .wind {
 	text-align: right;
 }
 #currentLocation {
